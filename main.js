@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 // use discord.js
 var bot = new Discord.Client();
 // sets Discord.Client to bot
-const BOT_TOKEN = "MzgxMjYwNDA2MTUwMjY2ODkw.DSLMDw.IV9UqAnb5muVBw1EfCfZOJVWOoI";
+const BOT_TOKEN = "MzgxMjYwNDA2MTUwMjY2ODkw.DSLumQ.IIQlkTqA_Es103vaENUo8RUQwFI";
 // bot's token
 const PREFIX = "~";
 // bot's prefix
@@ -11,7 +11,7 @@ var vote = "nothing"
 bot.on("ready", function() {
     // when the bot starts up, set its game to Use 
     // *help and tell the console "Booted up!"
-    bot.user.setGame("With code")
+    bot.user.setGame("Use ~info")
     // sets the game the bot is playing
     console.log("Bot is now online")
     // messages the console Bot is now online!
@@ -28,8 +28,31 @@ bot.on("message", (message)=>{
         return;
 
     var args = message.content.substring(PREFIX.length).split(" ");
-    var command = args[0].toLowerCase();    if (command === "ADMINPOLL") {
+    var command = args[0].toLowerCase();
 
+    if (command === "vote") {
+
+        if (!message.member.roles.some(r=>["Votebot.Start", "Votebot.*"].includes(r.name))) {
+            message.reply("Sorry, you do not have the permission to do this!");
+            return
+        }
+
+        message.channel.send("Type what you would like the vote to be about starting with a *. You have 60 seconds.").then(()=>{
+            const filter = m=>m.content.startsWith('*');
+            var vote = message.channel.awaitMessages(filter, {
+                max: 1,
+                time: 60000,
+                errors: ['time']
+            }).then(()=>{
+                message.channel.send("Great! Starting a vote now");
+                message.channel.send(vote.content)
+                message.react('✅');
+                message.react('❎');
+            }
+            );
+        }
+        );
+    }
     function kickcheck(message, type, member) {
         var types = type || "KICK_MEMBERS";
         var userish = member || message.author.id;
@@ -269,7 +292,6 @@ bot.on("message", (message)=>{
         ;
     }
 
-}
 }
 );
 
