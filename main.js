@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 // use discord.js
 var bot = new Discord.Client();
 // sets Discord.Client to bot
-const BOT_TOKEN = "MzgxMjYwNDA2MTUwMjY2ODkw.DSLumQ.IIQlkTqA_Es103vaENUo8RUQwFI";
+const BOT_TOKEN = "hidden";
 // bot's token
 const PREFIX = "~";
 // bot's prefix
